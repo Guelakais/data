@@ -67,24 +67,36 @@ public class datamanager {
 
     public static void Inputmanager() throws IOException, ParseException {
         final Scanner repopath = new Scanner(System.in);
+        final Scanner bob = new Scanner(System.in);
         do {
-            /*Soll noch abfragen, wenn bereits ein Pfad in directory eingetragen ist
-            und dann den Nutzer Fragen, ob der diesen beibehalten will.
-            */
-            String drectoryError = "Input is no Directory, please insert directory";
-            System.out.println("Please insert directory path:");
-            String repo = repopath.next();
-            File repodirect = new File(repo);
-            if (repodirect.isDirectory()) {
-                JSONObject wayson = cheatSheetReader();
-                FileWriter eumel = new FileWriter(way, false);
-                wayson.put(path,repo);
-                eumel.write(wayson.toJSONString());
-                eumel.close();
-                repopath.close();
-                break;
-            } else {
-                throw new IllegalArgumentException(drectoryError);
+            JSONObject jamal = cheatSheetReader();
+            String Analpath = (String) jamal.get(path);
+            File Anal = new File(Analpath);
+            if(Anal.isDirectory()){
+                System.out.println("Directory request is already satisfied, do you want to use another Directory?[y,n]");
+                String bobo = bob.next();
+                if(bobo.equals("n")){
+                    bob.close();
+                    break;
+                } else if(!(bobo.equals("n") || bobo.equals("y"))){
+                    System.out.println("try again");
+                }
+            } else{
+                String drectoryError = "Input is no Directory, please insert directory";
+                System.out.println("Please insert directory path:");
+                String repo = repopath.next();
+                File repodirect = new File(repo);
+                if (repodirect.isDirectory()) {
+                    JSONObject wayson = cheatSheetReader();
+                    FileWriter eumel = new FileWriter(way, false);
+                    wayson.put(path,repo);
+                    eumel.write(wayson.toJSONString());
+                    eumel.close();
+                    repopath.close();
+                    break;
+                } else {
+                    throw new IllegalArgumentException(drectoryError);
+                }
             }
         } while (true);
     }
@@ -117,7 +129,10 @@ public class datamanager {
         String Analpath = (String) eumel.get(path);
         Path path = Paths.get(Analpath);
         List<Path> paths = listFiles(path);
-        System.out.println(paths);
+        for(int i = 0; i < paths.size(); i++){
+            //String ana = paths.get(i).normalize().toString();
+            testExample01(paths.get(i).normalize().toString());
+        }
     }
     public static List<Path> listFiles(Path path) throws IOException {
 
@@ -130,20 +145,22 @@ public class datamanager {
         return result;
     }
     
-    public final void testExample01() throws IOException {
+    public final static void testExample01(String fasta) throws IOException {
 
-        // Read a multi FASTA file element by element.
-
-        final File file = new File("src/test/resources/fasta02.fasta");
+        final File file = new File(fasta);
 
         final FASTAFileReader reader = new FASTAFileReaderImpl(file);
 
         final FASTAElementIterator it = reader.getIterator();
-
+        int base = 0;
         while (it.hasNext()) {
             final FASTAElement el = it.next();
-            el.getHeader().contains("Homo sapiens spastin (SPAST)");
+            el.getSequence();
+            base++;
+            System.out.println(el);
         }
+        System.out.println(base);
+        reader.close();
     } 
     
 }
