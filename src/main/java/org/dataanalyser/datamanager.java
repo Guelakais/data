@@ -16,6 +16,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import net.sf.jfasta.FASTAElement;
+import net.sf.jfasta.FASTAFileReader;
+import net.sf.jfasta.impl.FASTAElementIterator;
+import net.sf.jfasta.impl.FASTAFileReaderImpl;
+
 
 
 public class datamanager {
@@ -84,7 +89,7 @@ public class datamanager {
         } while (true);
     }
 
-    public boolean parselp(String parse){
+    public boolean parsHelp(String parse){
         
         boolean bolsch = false;
         JSONParser parser = new JSONParser();
@@ -113,7 +118,6 @@ public class datamanager {
         Path path = Paths.get(Analpath);
         List<Path> paths = listFiles(path);
         System.out.println(paths);
-            
     }
     public static List<Path> listFiles(Path path) throws IOException {
 
@@ -125,5 +129,21 @@ public class datamanager {
         }
         return result;
     }
+    
+    public final void testExample01() throws IOException {
+
+        // Read a multi FASTA file element by element.
+
+        final File file = new File("src/test/resources/fasta02.fasta");
+
+        final FASTAFileReader reader = new FASTAFileReaderImpl(file);
+
+        final FASTAElementIterator it = reader.getIterator();
+
+        while (it.hasNext()) {
+            final FASTAElement el = it.next();
+            el.getHeader().contains("Homo sapiens spastin (SPAST)");
+        }
+    } 
     
 }
