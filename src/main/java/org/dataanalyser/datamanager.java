@@ -24,23 +24,26 @@ import net.sf.jfasta.impl.FASTAFileReaderImpl;
 
 
 public class datamanager {
-    public static String way = new String("cheatsheet.json");
-    public static String[] cursingSeeman = {"I'm chilling","Stop this nonsense", "you need to stop", "you make me really angry", "Stop now, or i'll kill you", "Du untruer Wendlerhörer, ich weiß genau was du machst, also hör endlich auf damit" };
     public static int angry = 0;
-    public static String path = "directory";
+    public static String way = new String("cheatsheet.json"), path = "directory";
+    public static String[] cursingSeeman = {"I'm chilling","Stop this nonsense", "you need to stop", "you make me really angry", "Stop now, or i'll kill you", "Du untruer Wendlerhörer, ich weiß genau was du machst, also hör endlich auf damit" };
 
     public static void main(String[] args) throws IOException, ParseException {
+        
         angrychecker();
         Inputmanager();
         cheatSheetReader();
         fileAnalyser();
+
     }
 
     public static void angrychecker() throws IOException {
+        
         do{
             File fileCheck = new File(way);
             JSONObject notice = new JSONObject();
             FileReader observer = null;
+            
             if (observer == null) {
                 if (!fileCheck.exists()) {
                     FileWriter eumel = new FileWriter(way);
@@ -58,12 +61,12 @@ public class datamanager {
                     }
                     break;
                 }
-                
             }
         } while(true);
     }
 
     public static void Inputmanager() throws IOException, ParseException {
+        
         final Scanner repopath = new Scanner(System.in);
         final Scanner bob = new Scanner(System.in);
 
@@ -102,12 +105,12 @@ public class datamanager {
     public boolean parsHelp(String parse){
         
         boolean bolsch = false;
+        
         JSONParser parser = new JSONParser();
         try {
             parser.parse(new FileReader(way));
             bolsch = true;
         } catch (IOException | ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             bolsch = false;
         }
@@ -116,17 +119,25 @@ public class datamanager {
     }
 
     public static JSONObject cheatSheetReader() throws IOException, ParseException {
+        
         JSONParser parser = new JSONParser();
+        
         Object eumelob = parser.parse(new FileReader(way));
+        
         JSONObject wayson = (JSONObject) eumelob;
+        
         return wayson;
     }
 
     public static void fileAnalyser() throws IOException, ParseException {
         JSONObject eumel = cheatSheetReader();
+
         String Analpath = (String) eumel.get(path);
+        
         Path path = Paths.get(Analpath);
+        
         List<Path> paths = listFiles(path);
+        
         for(int i = 0; i < paths.size(); i++){
             //String ana = paths.get(i).normalize().toString();
             testExample01(paths.get(i).normalize().toString());
