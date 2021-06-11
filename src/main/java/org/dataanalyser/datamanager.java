@@ -158,6 +158,7 @@ public class datamanager {
             el.getSequence();
             base++;
             System.out.println(el);
+            
         }
         System.out.println(base);
         reader.close();
