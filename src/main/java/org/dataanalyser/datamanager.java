@@ -11,11 +11,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import net.sf.jfasta.FASTAElement;
 import net.sf.jfasta.FASTAFileReader;
 import net.sf.jfasta.impl.FASTAElementIterator;
