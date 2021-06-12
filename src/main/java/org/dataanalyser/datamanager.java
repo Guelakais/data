@@ -173,15 +173,23 @@ public class datamanager {
                 }
             }
             System.out.println("SequenceLength:"+seql+"\n"+head+"\n"+"A:"+counta+"    C:"+countb+"    G:"+countc+"    T:"+countd+ " accesion Nummber:"+ id);
-            featuresToJSON(seql, head, id, counta, countb, countc, countd);
+            featuresToJSON(id, head, seql, counta, countb, countc, countd);
         }
         reader.close();
     }
-    public static void featuresToJSON(int seql, String head, String id, int counta, int countb, int countc, int countd) throws IOException, ParseException {
-        int length = seql, a = counta, c = countb, g = countc, t = countd;
-        String header = head, accession = id;
-        
-
+    public static void featuresToJSON(String id, String head,int seql, int counta, int countb, int countc, int countd) throws IOException, ParseException {
+        JSONObject wayson = cheatSheetReader();
+        JSONObject accesion = new JSONObject();
+        accesion.put("Headline",head);
+        accesion.put("Sequence length", seql);
+        accesion.put("A", counta);
+        accesion.put("C", countb);
+        accesion.put("G", countc);
+        accesion.put("T", countd);
+        wayson.put(id, accesion);
+        FileWriter eumel = new FileWriter(way, false);
+        eumel.write(wayson.toJSONString());
+        eumel.flush();
     }
     
 }
