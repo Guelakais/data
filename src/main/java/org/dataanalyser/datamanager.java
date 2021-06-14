@@ -70,29 +70,40 @@ public class datamanager {
                     String bobo = repopath.next();
                     if(bobo.equals("n")){
                         break;
-                    } else if(!(bobo.equals("n") || bobo.equals("y"))){
-                        System.out.println("try again");
-                    }
-                } 
-            } else {
-                    System.out.println("Please insert directory path:");
-                    String repo = repopath.next();
-                    File repodirect = new File(repo);
-                    if (repodirect.isDirectory()) {
-                        JSONObject wayson = cheatSheetReader();
-                        FileWriter eumel = new FileWriter(way, false);
-                        wayson.put(path,repo);
-                        eumel.write(wayson.toJSONString());
-                        eumel.flush();
-                        eumel.close();
+                    } else if(bobo.equals("y")){
+                        pathnotize(repopath);
                         break;
-                    } else {
-                        System.out.println("Input is no Directory, please insert directory");
+                    } 
+                    else{
+                        System.out.println("try again");
                         continue;
                     }
                 }
+            } else {
+                    pathnotize(repopath);
+                }
             repopath.close();
         } while (true);
+    }
+
+    public static void pathnotize(Scanner repopath) throws IOException, ParseException{
+        do{
+        System.out.println("Please insert directory path:");
+        String repo = repopath.next();
+        File repodirect = new File(repo);
+        if (repodirect.isDirectory()) {
+            JSONObject wayson = cheatSheetReader();
+            FileWriter eumel = new FileWriter(way, false);
+            wayson.put(path,repo);
+            eumel.write(wayson.toJSONString());
+            eumel.flush();
+            eumel.close();
+            break;
+        } else {
+            System.out.println("Input is no Directory, please insert directory");
+            continue;
+            }
+        }while(true);
     }
 
     public boolean parsHelp(String parse){
