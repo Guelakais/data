@@ -188,6 +188,7 @@ public class datamanager {
             System.out.println("features for "+id+" in "+relation+" under calculation.\n Please wait");
             features = featuresToJSON(head, seql, basecount, proportionfeature);
             fileadder.put(id, features);
+            reader.close();
         }
 
         wayson.put(relation, fileadder);
