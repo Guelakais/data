@@ -181,7 +181,7 @@ public class datamanager {
             String[] array = head.split("\\|",-1);
             for(int i = 0; i<array.length;i++){
                 String element = array[i];
-                if(element.charAt(0)=='N' && element.charAt(1)=='C'|| element.charAt(0)=='P'){
+                if(element.charAt(0)=='N' && element.charAt(1)=='C' && element.charAt(2)=='_'|| element.charAt(0)=='P'){
                     id = element;
                 }
             }
