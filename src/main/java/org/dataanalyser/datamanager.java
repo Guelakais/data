@@ -23,6 +23,7 @@ public class datamanager {
     public static int angry = 0;
     public static String way = "cheatsheet.json", path = "directory";
     public static String[] cursingSeeman = {"I'm chilling","Stop this nonsense", "you need to stop", "you make me really angry", "Stop now, or i'll kill you", "Du untruer Wendlerhörer, ich weiß genau was du machst, also hör endlich auf damit" };
+    public static char[] basechars = {'A','C','G','T'};
 
     public static void main(String[] args) throws IOException, ParseException {
         
@@ -86,7 +87,8 @@ public class datamanager {
                         eumel.close();
                         break;
                     } else {
-                        throw new IllegalArgumentException("Input is no Directory, please insert directory");
+                        System.out.println("Input is no Directory, please insert directory");
+                        continue;
                     }
                 }
             repopath.close();
@@ -147,30 +149,25 @@ public class datamanager {
         final File file = new File(fasta);
         final FASTAFileReader reader = new FASTAFileReaderImpl(file);
         final FASTAElementIterator it = reader.getIterator();
-
+        JSONObject features = new JSONObject();
+        JSONObject wayson = cheatSheetReader();
+        String relation = (String) wayson.get(path);
         while(it.hasNext()) {
-            int counta = 0, countb = 0, countc = 0, countd = 0;
+            int[] basecount = {0, 0, 0, 0};
+            float[] proportionfeature = { 0, 0, 0, 0};
             final FASTAElement el = it.next();
             String ela = el.getSequence(), head = el.getHeader(), id = "bob";
             int seql = el.getSequenceLength();
             for(int x = 0; x< ela.length(); x++){
-                if (ela.charAt(x) == 'A'){
-                    counta++;
-                } else 
-                if (ela.charAt(x) == 'C'){
-                    countb++;
-                } else 
-                if (ela.charAt(x) == 'G'){
-                    countc++;
-                } else 
-                if (ela.charAt(x) == 'T'){
-                    countd++;
+                for(int j = 0; j< basechars.length; j++){
+                    if(ela.charAt(x)==basechars[j]){
+                        basecount[j]++;
+                    }
                 }
             }
-            int featureA = counta/seql;
-            int featureC = countb/seql;
-            int featureG = countc/seql;
-            int featureT = countd/seql;
+            for(int i = 0; i<proportionfeature.length; i++){
+                proportionfeature[i]=(float) basecount[i]/(float)seql;
+            }
             String[] array = head.split("\\|",-1);
             for(int i = 0; i<array.length;i++){
                 String element = array[i];
@@ -178,30 +175,26 @@ public class datamanager {
                     id = element;
                 }
             }
-            //System.out.println("SequenceLength:"+seql+"\n"+head+"\n"+"A:"+counta+"    C:"+countb+"    G:"+countc+"    T:"+countd+ " accesion Nummber:"+ id);
-            featuresToJSON(id, head, seql, counta, countb, countc, countd, featureA, featureC, featureG, featureT);
+            System.out.println("features for "+head+" in "+relation+" under calculation.\n Please wait");
+            features = featuresToJSON(id, head, seql, basecount, proportionfeature);
         }
-        JSONObject wayson = cheatSheetReader();
-        JSONObject pathbound = new JSONObject();
-        String relation = (String) wayson.get(path);
-        pathbound.put(relation,wayson);
-        reader.close();
-    }
-    public static void featuresToJSON(String id, String head,int seql, int counta, int countb, int countc, int countd, int featureA, int featureC, int featureG, int featureT) throws IOException, ParseException {
-        JSONObject wayson = cheatSheetReader();
-        JSONObject accesion = new JSONObject();
-        String[] fb ={"relatively amount of", " bases in", "A", "C", "G", "T"};
-        accesion.put("Headline",head);
-        accesion.put("Sequence length", seql);
-        accesion.put("A", counta);
-        accesion.put("C", countb);
-        accesion.put("G", countc);
-        accesion.put("T", countd);
-        wayson.put(id, accesion);
+        wayson.put(relation,features);
         FileWriter eumel = new FileWriter(way, false);
         eumel.write(wayson.toJSONString());
         eumel.flush();
         eumel.close();
+        reader.close();
+    }
+    public static JSONObject featuresToJSON(String id, String head,int seql, int[] basecount, float[] proportionfeature) throws IOException, ParseException {
+        JSONObject accesion = new JSONObject();
+        String[] fb ={"proportion of ", " bases in"};
+        accesion.put("Headline",head);
+        accesion.put("Sequence length", seql);
+        for(int i= 0; i<basechars.length; i++){
+            accesion.put(basechars[i], basecount[i]);
+            accesion.put(fb[0]+basechars[i]+fb[1],proportionfeature[i]);
+        }
+        return accesion;
     }
     
 }
