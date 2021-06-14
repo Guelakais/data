@@ -90,18 +90,18 @@ public class datamanager {
 
     public static void pathnotize(Scanner repopath) throws IOException, ParseException{
         do{
-        System.out.println("Please insert directory path:");
-        String repo = repopath.next();
-        File repodirect = new File(repo);
-        if (repodirect.isDirectory()) {
-            JSONObject wayson = cheatSheetReader();
-            wayson.put(path,repo);
-            eumelToJCheatSheet(way, wayson);
-            break;
-        } else {
-            System.out.println("Input is no Directory, please insert directory");
-            continue;
-            }
+            System.out.println("Please insert directory path:");
+            String repo = repopath.next();
+            File repodirect = new File(repo);
+            if (repodirect.isDirectory()) {
+                JSONObject wayson = cheatSheetReader();
+                wayson.put(path,repo);
+                eumelToJCheatSheet(way, wayson);
+                break;
+            } else {
+                System.out.println("Input is no Directory, please insert directory");
+                continue;
+                }
         }while(true);
     }
 
