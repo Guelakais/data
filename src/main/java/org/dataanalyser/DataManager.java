@@ -1,30 +1,30 @@
 package org.dataanalyser;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.io.File;                //In this program, we work on Files, so this import is important
+import java.io.FileReader;          //This Program does read Files
+import java.io.FileWriter;          //This Program does write to our cheatsheet
+import java.io.IOException;         //IOExceptions are a lot here
+import java.nio.file.Files;         //More work on Files
+import java.nio.file.Path;          //Later, it shows that here the files of a whole directory are worked with
+import java.nio.file.Paths;         //more work with paths
+import java.util.List;              //yeah, lists
+import java.util.Scanner;           //Our user inputs are managed with the scanner functions
+import java.util.stream.Collectors; //Theres a lot to collect
+import java.util.stream.Stream;     //Theres a lot to work with streams
 
-import org.json.simple.JSONObject;
+import org.json.simple.JSONObject;              //because here is a JsonFile in use as cheatsheet, the packages to work with them are important
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.simple.parser.ParseException;   //No work with the parser without handling his exceptions
 
-import net.sf.jfasta.FASTAElement;
+import net.sf.jfasta.FASTAElement;              //Fasta files are the ones, this programm want to analyse
 import net.sf.jfasta.FASTAFileReader;
 import net.sf.jfasta.impl.FASTAElementIterator;
 import net.sf.jfasta.impl.FASTAFileReaderImpl;
 
-public class DataManager {
-    public static int angry = 0;
-    public static String way = "cheatsheet.json", path = "directory";
+public class DataManager {                      //The Name of this Class
+    public static int angry = 0;                //angry and cursingSeeman are more part of an easter egg         
     public static String[] cursingSeeman = {"I'm chilling","Stop this nonsense", "you need to stop", "you make me really angry", "Stop now, or i'll kill you", "Du untruer Wendlerhörer, ich weiß genau was du machst, also hör endlich auf damit" };
+    public static String way = "cheatsheet.json", path = "directory";
     public static char[] basechars = {'A','C','G','T'};
 
     public static void main(String[] args) throws IOException, ParseException {
