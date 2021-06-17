@@ -176,10 +176,12 @@ public class DataManager {                      //The Name of this Class
                 proportionfeature[i]=(float) basecount[i]/(float)seql;
             }
             String[] array = head.split("\\|",-1);
-            for(int i = 0; i<array.length;i++){
-                String element = array[i];
-                if(element.charAt(0)=='N' && element.charAt(1)=='C' && element.charAt(2)=='_'|| element.charAt(0)=='P'){
+            String[] accessionNum = {"AC_","NC_","NG_","NT_","NT_","NW_","NZ_","NM_","NR_","XM_","XR_","AP_","NP_","YP_","XP_","WP_"}; //At the moment, only the Accesion numbers of the Refseq are implemented.
+            for(String element:array){
+                for(String match:accessionNum){
+                    if(element.contains(match) || element.charAt(0)=='P'){
                     id = element;
+                    }    
                 }
             }
             System.out.println("features for "+id+" in "+relation+" under calculation.\n Please wait");
@@ -201,15 +203,15 @@ public class DataManager {                      //The Name of this Class
     }
 
     public static JSONObject featuresToJSON(String head,int seql, int[] basecount, float[] proportionfeature) throws IOException, ParseException {
-        JSONObject accesion = new JSONObject();
+        JSONObject feature = new JSONObject();
         String[] fb ={"proportion of ", " bases in"};
-        accesion.put("Headline",head);
-        accesion.put("Sequence length", seql);
+        feature.put("Headline",head);
+        feature.put("Sequence length", seql);
         for(int i= 0; i<basechars.length; i++){
-            accesion.put(basechars[i], basecount[i]);
-            accesion.put(fb[0]+basechars[i]+fb[1],proportionfeature[i]);
+            feature.put(basechars[i], basecount[i]);
+            feature.put(fb[0]+basechars[i]+fb[1],proportionfeature[i]);
         }
-        return accesion;
+        return feature;
     }
     
 }
