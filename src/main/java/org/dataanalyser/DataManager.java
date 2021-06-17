@@ -24,7 +24,7 @@ import net.sf.jfasta.impl.FASTAFileReaderImpl;
 public class DataManager {                      //The Name of this Class
     public static int angry = 0;                //angry and cursingSeeman are more part of an easter egg         
     public static String[] cursingSeeman = {"I'm chilling","Stop this nonsense", "you need to stop", "you make me really angry", "Stop now, or i'll kill you", "Du untruer Wendlerhörer, ich weiß genau was du machst, also hör endlich auf damit" },
-    accessionNum = {"AC_","NC_","NG_","NT_","NT_","NW_","NZ_","NM_","NR_","XM_","XR_","AP_","NP_","YP_","XP_","WP_"}; //At the moment, only the Accesion numbers of the Refseq are implemented.
+    accessionNum = {"AC_","NC_","NG_","NT_","NT_","NW_","NZ_","NM_","NR_","XM_","XR_","AP_","NP_","YP_","XP_","WP_",}; //At the moment, only the Accesion numbers of the Refseq are implemented.
     public static String way = "cheatsheet.json", path = "directory";
     public static char[] basechars = {'A','C','G','T'};
 
@@ -160,26 +160,30 @@ public class DataManager {                      //The Name of this Class
         JSONObject features = new JSONObject();
         JSONObject wayson = cheatSheetReader();
         String relation = (String) wayson.get(path), id = "bob";
+
         while(it.hasNext()) {
             int[] basecount = {0, 0, 0, 0};
             float[] proportionfeature = { 0, 0, 0, 0};
             final FASTAElement el = it.next();
             String ela = el.getSequence(), head = el.getHeader();
             int seql = el.getSequenceLength();
-            for(int x = 0; x< ela.length(); x++){
-                for(int j = 0; j< basechars.length; j++){
+
+            for(int j = 0; j< basechars.length; j++){
+                for(int x = 0; x<ela.length(); x++){
                     if(ela.charAt(x)==basechars[j]){
                         basecount[j]++;
                     }
                 }
             }
+
             for(int i = 0; i<proportionfeature.length; i++){
                 proportionfeature[i]=(float) basecount[i]/(float)seql;
             }
+            
             String[] array = head.split("\\|",-1);
             for(String element:array){
                 for(String match:accessionNum){
-                    if(element.contains(match) || element.charAt(0)=='P'){
+                    if(element.charAt(0)=='N' && element.charAt(1)=='C' || element.charAt(0)=='P'){
                     id = element;
                     }    
                 }
@@ -187,11 +191,12 @@ public class DataManager {                      //The Name of this Class
             System.out.println("features for "+id+" in "+relation+" under calculation.\n Please wait");
             features = featuresToJSON(head, seql, basecount, proportionfeature);
             fileadder.put(id, features);
-            freader.close();
+            
         }
 
         wayson.put(relation, fileadder);
         writeToCheatsheet(way, wayson);
+        freader.close();
     }
     public static void writeToCheatsheet(String bob, JSONObject bobo) throws IOException{
         FileWriter eumel = new FileWriter(bob, false);
