@@ -23,7 +23,8 @@ import net.sf.jfasta.impl.FASTAFileReaderImpl;
 
 public class DataManager {                      //The Name of this Class
     public static int angry = 0;                //angry and cursingSeeman are more part of an easter egg         
-    public static String[] cursingSeeman = {"I'm chilling","Stop this nonsense", "you need to stop", "you make me really angry", "Stop now, or i'll kill you", "Du untruer Wendlerhörer, ich weiß genau was du machst, also hör endlich auf damit" };
+    public static String[] cursingSeeman = {"I'm chilling","Stop this nonsense", "you need to stop", "you make me really angry", "Stop now, or i'll kill you", "Du untruer Wendlerhörer, ich weiß genau was du machst, also hör endlich auf damit" },
+    accessionNum = {"AC_","NC_","NG_","NT_","NT_","NW_","NZ_","NM_","NR_","XM_","XR_","AP_","NP_","YP_","XP_","WP_"}; //At the moment, only the Accesion numbers of the Refseq are implemented.
     public static String way = "cheatsheet.json", path = "directory";
     public static char[] basechars = {'A','C','G','T'};
 
@@ -176,7 +177,6 @@ public class DataManager {                      //The Name of this Class
                 proportionfeature[i]=(float) basecount[i]/(float)seql;
             }
             String[] array = head.split("\\|",-1);
-            String[] accessionNum = {"AC_","NC_","NG_","NT_","NT_","NW_","NZ_","NM_","NR_","XM_","XR_","AP_","NP_","YP_","XP_","WP_"}; //At the moment, only the Accesion numbers of the Refseq are implemented.
             for(String element:array){
                 for(String match:accessionNum){
                     if(element.contains(match) || element.charAt(0)=='P'){
@@ -212,6 +212,5 @@ public class DataManager {                      //The Name of this Class
             feature.put(fb[0]+basechars[i]+fb[1],proportionfeature[i]);
         }
         return feature;
-    }
-    
+    }    
 }
